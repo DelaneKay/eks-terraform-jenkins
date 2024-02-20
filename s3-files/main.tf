@@ -5,4 +5,8 @@ module "remote_state" {
     aws         = aws
     aws.replica = aws.replica
   }
+
+  tags = {
+    Name = "jenkins-state"
+  }
 }
