@@ -10,6 +10,7 @@ module "ec2_instance" {
   associate_public_ip_address = true
   user_data                   = file("jenkins-install.sh")
   availability_zone           = module.vpc.azs[0]
+  ami                         = data.aws_ami.ubuntu.id
 
   tags = {
     Name        = "Jenkins-Server"
