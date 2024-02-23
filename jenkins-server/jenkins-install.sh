@@ -1,27 +1,27 @@
 #!/bin/bash
 
-# Update package lists
-sudo apt update -y
+# Update and upgrade package lists
+sudo apt-get update -y
+sudo apt upgrade -y
 
-# Install Jenkins
-sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
-  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
-  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
-  /etc/apt/sources.list.d/jenkins.list > /dev/null
-sudo apt-get update
-sudo apt-get install jenkins
-sudo apt update
-sudo apt install fontconfig openjdk-17-jre
-java -version
-openjdk version "17.0.8" 2023-07-18
-OpenJDK Runtime Environment (build 17.0.8+7-Debian-1deb12u1)
-OpenJDK 64-Bit Server VM (build 17.0.8+7-Debian-1deb12u1, mixed mode, sharing)
+sudo apt install openjdk-17-jre -y
+#echo -e '\n'   # Enter
+#echo -e '\t'   # Tab
+#echo -e '\n'   # Enter
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null 
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt update -y
+sudo apt install jenkins -y
+#echo -e '\n'   # Enter
+#echo -e '\t'   # Tab
+#echo -e '\n'   # Enter
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
+sudo systemctl status jenkins
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 # Install Git
-sudo apt install git -y
+sudo apt-get install -y git
 
 # Install Terraform
 sudo apt-get install -y gnupg software-properties-common
@@ -30,7 +30,7 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp.gpg] https://apt.releases.has
 sudo apt-get update
 sudo apt-get install terraform -y
 
-# Install kubectl
+#finally install kubectl
 sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl
 sudo chmod +x ./kubectl
-sudo mv ./kubectl /usr/local/bin/kubectl
+sudo mkdir -p $HOME/bin && sudo cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
