@@ -3,7 +3,7 @@ module "ec2_instance" {
 
   name = "Jenkins-Server"
 
-  instance_type               = "t2.micro"
+  instance_type               = "t2.large"
   key_name                    = "AWSDevOPs"
   vpc_security_group_ids      = [module.sg.security_group_id]
   subnet_id                   = module.vpc.public_subnets[0]
